@@ -20,6 +20,8 @@ void listAll();
 node * search(node *head, node *nodeToFind);
 void insert(node *head, node *nodeToAdd);
 void removeNode(node **head, int dataForRemoval);
+node initializeNode(node *head);
+void deallocateNode(node *head);
 
 int main(int argc, const char * argv[]) {
     node *current;
@@ -34,9 +36,10 @@ int main(int argc, const char * argv[]) {
     myOtherNode = (node *)malloc(sizeof(node));
     myOtherNode->data = 8;
     myOtherNode->next = NULL;
-    head = NULL;
+    //head = NULL;
     
-    // Task 1 - Create Linked List Function
+ //    Task 1 - Create Linked List Function
+    
     for(int i = 10; i > 0; i--) {
         current = (node *)malloc(sizeof(node));
         current->data = i;
@@ -44,10 +47,11 @@ int main(int argc, const char * argv[]) {
         head = current;
     }
 
-    
     search(head, myNode);
     insert(head, myNode);
     removeNode(&head, 11);
+    listAll(head);
+    deallocateNode(head);
     listAll(head);
     return 0;
 }
@@ -100,7 +104,7 @@ void insert(node *head, node *nodeToAdd) {
 //Task 5 Removal Function
 void removeNode(node **head, int dataForRemoval) {
     node *current;
-    node *previous;
+    node *previous = NULL;
     current = *head;
     
     while (current != NULL && dataForRemoval != current->data) {
@@ -122,16 +126,21 @@ void removeNode(node **head, int dataForRemoval) {
 }
 
 //Task 6 Initialization Function
-node initializeNode() {
-    node *current;
-    node *head;
-    for(int i = 10; i > 0; i--) {
-        current = (node *)malloc(sizeof(node));
-        current->data = i;
-        current->next = head;
-        head = current;
-    }
-    return current;
-}
+//node initializeNode(node *head) {
+//    node *current;
+//    head = (node *)malloc(sizeof(node));
+//    return *head;
+//}
+// maybe initialize using the insert function?
 
+//Task 7 Deallocation
+void deallocateNode(node *head) {
+    node *current;
+    while ((current = head) != NULL) {
+        head = head->next;
+        printf("freeing: %d\n", current->data);
+        free(current);
+        
+    }
+}
 
