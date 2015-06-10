@@ -19,7 +19,7 @@ typedef struct Node node;
 void listAll();
 node * search(node *head, node *nodeToFind);
 void insert(node *head, node *nodeToAdd);
-void removeNode(node *head, node *nodeToRemove);
+void removeNode(node **head, int dataForRemoval);
 
 int main(int argc, const char * argv[]) {
     node *current;
@@ -27,10 +27,15 @@ int main(int argc, const char * argv[]) {
 
     node *myNode;
     myNode = (node *)malloc(sizeof(node));
-    myNode->data = 15;
+    myNode->data = 11;
     myNode->next = NULL;
     
+    node *myOtherNode;
+    myOtherNode = (node *)malloc(sizeof(node));
+    myOtherNode->data = 8;
+    myOtherNode->next = NULL;
     head = NULL;
+    
     // Task 1 - Create Linked List Function
     for(int i = 10; i > 0; i--) {
         current = (node *)malloc(sizeof(node));
@@ -42,6 +47,7 @@ int main(int argc, const char * argv[]) {
     
     search(head, myNode);
     insert(head, myNode);
+    removeNode(&head, 11);
     listAll(head);
     return 0;
 }
@@ -66,11 +72,11 @@ node * search(node *head, node *nodeToFind) {
         current = current->next;
     }
     if(current->data == nodeToFind->data) {
-    printf("node found %d", current->data);
+    printf("node found %d\n", current->data);
     return current->next;
     }
     else {
-        printf("node not found \n");
+        printf("node not found\n");
         return NULL;
     }
 }
@@ -92,19 +98,40 @@ void insert(node *head, node *nodeToAdd) {
 }
 
 //Task 5 Removal Function
-void removeNode(node *head, node *nodeToRemove) {
+void removeNode(node **head, int dataForRemoval) {
     node *current;
     node *previous;
-    head = current;
-    head = previous;
-   
-    while (current != NULL) {
+    current = *head;
+    
+    while (current != NULL && dataForRemoval != current->data) {
         previous = current;
-        current = current -> next;
-        
-        
+        current = current->next;
+    }
+    if(current == NULL) { //element not found
+        printf("Node not found. No removal done. \n");
+    }
+    if (current == *head) { //delete first node
+        *head = (*head)->next;
     }
     
-    
-    
+    else {
+        previous->next = current->next;
+        printf("Node removed: %d\n", current->data);
+        free(current);
+    }
 }
+
+//Task 6 Initialization Function
+node initializeNode() {
+    node *current;
+    node *head;
+    for(int i = 10; i > 0; i--) {
+        current = (node *)malloc(sizeof(node));
+        current->data = i;
+        current->next = head;
+        head = current;
+    }
+    return current;
+}
+
+
