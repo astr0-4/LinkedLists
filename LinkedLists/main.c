@@ -14,29 +14,34 @@ struct Node {
     struct Node *next;
 };
 
-typedef struct Node node;
+//function prototypes
 
+typedef struct Node node;
+node * initializeNode(int data);
 void listAll();
 node * search(node *head, node *nodeToFind);
 void insert(node *head, node *nodeToAdd);
 void removeNode(node **head, int dataForRemoval);
-node initializeNode(node *head);
+
 void deallocateNode(node *head);
 
 int main(int argc, const char * argv[]) {
     node *current;
-    node *head;
+    node *head = NULL;
 
     node *myNode;
     myNode = (node *)malloc(sizeof(node));
     myNode->data = 11;
     myNode->next = NULL;
     
-    node *myOtherNode;
-    myOtherNode = (node *)malloc(sizeof(node));
-    myOtherNode->data = 8;
-    myOtherNode->next = NULL;
-    //head = NULL;
+//    node *myOtherNode;
+//    myOtherNode = (node *)malloc(sizeof(node));
+//    myOtherNode->data = 8;
+//    myOtherNode->next = NULL;
+
+    
+    node *myOtherNode = initializeNode(3);
+    printf("my Other node: %p", myOtherNode ->next);
     
  //    Task 1 - Create Linked List Function
     
@@ -126,12 +131,14 @@ void removeNode(node **head, int dataForRemoval) {
 }
 
 //Task 6 Initialization Function
-//node initializeNode(node *head) {
-//    node *current;
-//    head = (node *)malloc(sizeof(node));
-//    return *head;
-//}
-// maybe initialize using the insert function?
+
+node * initializeNode(int data) {
+    node *newNode;
+    newNode = (node *)malloc(sizeof(node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
 
 //Task 7 Deallocation
 void deallocateNode(node *head) {
